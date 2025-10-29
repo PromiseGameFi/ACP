@@ -26,6 +26,14 @@ replay_pid*
 # Node.js dependencies
 node_modules/
 
+# TypeScript build output
+dist/
+build/
+lib/
+
+# Test coverage
+coverage/
+
 # Hardhat files
 artifacts/
 cache/

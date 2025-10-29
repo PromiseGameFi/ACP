@@ -69,7 +69,7 @@ describe("ERC8004TrustlessAgents", function () {
             
             await expect(
                 contract.connect(agent2).updateAgentMetadata(agent1Id, "https://example.com/malicious.json")
-            ).to.be.revertedWith("ERC8004: caller is not owner nor approved");
+            ).to.be.revertedWithCustomError(contract, "UnauthorizedAccess");
         });
     });
 
@@ -126,7 +126,7 @@ describe("ERC8004TrustlessAgents", function () {
                     85,
                     "https://example.com/feedback.json"
                 )
-            ).to.be.revertedWith("ERC8004: caller is not a registered agent");
+            ).to.be.revertedWithCustomError(contract, "AgentNotRegistered");
         });
 
         it("Should prevent feedback for inactive agents", async function () {
@@ -140,7 +140,7 @@ describe("ERC8004TrustlessAgents", function () {
                     85,
                     "https://example.com/feedback.json"
                 )
-            ).to.be.revertedWith("ERC8004: server agent is not active");
+            ).to.be.revertedWithCustomError(contract, "AgentNotActive");
         });
     });
 
@@ -217,7 +217,7 @@ describe("ERC8004TrustlessAgents", function () {
             // Try to submit another response
             await expect(
                 contract.connect(validator).submitValidationResponse(requestId, 80, false, "https://example.com/proof2.json")
-            ).to.be.revertedWith("ERC8004: validation already completed");
+            ).to.be.revertedWithCustomError(contract, "ValidationAlreadyCompleted");
         });
     });
 
@@ -225,7 +225,7 @@ describe("ERC8004TrustlessAgents", function () {
         it("Should prevent empty metadata URI", async function () {
             await expect(
                 contract.connect(agent1).registerAgent("")
-            ).to.be.revertedWith("ERC8004: metadata URI cannot be empty");
+            ).to.be.revertedWithCustomError(contract, "EmptyMetadataURI");
         });
 
         it("Should prevent invalid ratings", async function () {
@@ -234,7 +234,7 @@ describe("ERC8004TrustlessAgents", function () {
             
             await expect(
                 contract.connect(agent1).submitFeedback(agent2.address, "task1", 101, "https://example.com/feedback.json")
-            ).to.be.revertedWith("ERC8004: rating must be between 0 and 100");
+            ).to.be.revertedWithCustomError(contract, "InvalidRating");
         });
 
         it("Should prevent zero data hash in validation", async function () {
@@ -242,7 +242,7 @@ describe("ERC8004TrustlessAgents", function () {
             
             await expect(
                 contract.connect(agent1).requestValidation("task1", ethers.ZeroHash, "zkTLS")
-            ).to.be.revertedWith("ERC8004: data hash cannot be zero");
+            ).to.be.revertedWithCustomError(contract, "InvalidDataHash");
         });
     });
 
@@ -276,7 +276,7 @@ describe("ERC8004TrustlessAgents", function () {
             
             await expect(
                 contract.connect(agent1).transferFrom(agent1.address, agent2.address, agentId)
-            ).to.be.revertedWith("ERC8004: agent identity tokens are non-transferable");
+            ).to.be.revertedWithCustomError(contract, "NonTransferableToken");
         });
 
         it("Should support ERC-721 interfaces", async function () {

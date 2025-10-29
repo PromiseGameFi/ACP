@@ -20,6 +20,23 @@ async function main() {
         console.log("Contract name:", contractArtifact.contractName);
         console.log("Bytecode length:", contractArtifact.bytecode.length);
         
+        // Calculate and display contract size information
+        const bytecodeSize = (contractArtifact.bytecode.length - 2) / 2; // Remove '0x' and convert hex to bytes
+        const deployedBytecodeSize = contractArtifact.deployedBytecode ? (contractArtifact.deployedBytecodeSize || (contractArtifact.deployedBytecode.length - 2) / 2) : 0;
+        const maxSize = 24576; // Mainnet deployment limit
+        
+        console.log(`📏 Contract Size Analysis:`);
+        console.log(`  • Bytecode size: ${bytecodeSize} bytes`);
+        console.log(`  • Deployed bytecode size: ${deployedBytecodeSize} bytes`);
+        console.log(`  • Mainnet limit: ${maxSize} bytes`);
+        console.log(`  • Size efficiency: ${((maxSize - deployedBytecodeSize) / maxSize * 100).toFixed(1)}% under limit`);
+        
+        if (deployedBytecodeSize > maxSize) {
+            console.warn(`⚠️  WARNING: Contract size (${deployedBytecodeSize} bytes) exceeds Mainnet limit (${maxSize} bytes)`);
+        } else {
+            console.log(`✅ Contract size is within Mainnet deployment limits`);
+        }
+        
         // Validate contract structure
         if (!contractArtifact.abi || !contractArtifact.bytecode) {
             console.error("Invalid contract artifact - missing ABI or bytecode");
@@ -39,6 +56,8 @@ async function main() {
         console.log("  • Validation Registry");
         console.log("  • Non-transferable agent tokens");
         console.log("  • Comprehensive access controls");
+        console.log("  • Optimized bytecode with custom errors");
+        console.log("  • Gas-efficient implementation");
         
         // Display key functions
         const keyFunctions = contractArtifact.abi.filter(item => 
