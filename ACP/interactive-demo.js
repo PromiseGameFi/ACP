@@ -77,9 +77,9 @@ async function runInteractiveDemo() {
     {
       type: 'structured',
       data: {
-        temperature: 72,
-        condition: 'sunny',
-        humidity: 45,
+        temperature: 60,
+        condition: 'clear',
+        humidity: 55,
         location: 'New York, NY'
       }
     },
