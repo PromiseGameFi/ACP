@@ -39,7 +39,7 @@ Follow the steps below to set up and run the demonstration.
 
 1.  Navigate to the `Erc8004` directory:
     ```bash
-    cd c:\Users\Promi\OneDrive\Documents\GitHub\ACP\Erc8004
+    cd ACP\Erc8004
     ```
 2.  Initialize a Hardhat project (this will be done in the next step by the assistant).
 3.  Install dependencies (this will be done in the next step by the assistant).
